@@ -1,5 +1,5 @@
 # [mizoview](https://github.com/izonit/mizoview)
-### A tiny, fast application to render images.
+### A tiny, fast application to view images.
 
 ## Instructions:
 **For now, the application is officially __Linux-only__. You CAN NOT compile it on Windows by default. I am not planning to provide binaries, neither.**
