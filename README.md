@@ -5,9 +5,10 @@
 **For now, the application is officially __Linux-only__. You CAN NOT compile it on Windows by default. I am not planning to provide binaries, neither.**
 
 ### Prerequisites:
-- Make (building)
 - X11-based DE/WM for any Linux distro
 - OpenGL
+- Raylib installed locally on your machine
+- Make
 
 ### Building.
 Run `git clone https://github.com/izonit/mizoview && cd mizoview && make -k` in your terminal in your preferred directory.
