@@ -8,7 +8,8 @@ typedef struct {
     char title[256];
 } Window;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     Texture2D texture = { 0 };
     char fileInfo[256] = "NO FILE";
 
