@@ -7,7 +7,6 @@
 ### Prerequisites:
 - X11-based DE/WM for any Linux distro
 - OpenGL
-- Raylib installed locally on your machine
 - Make
 
 ### Building.
