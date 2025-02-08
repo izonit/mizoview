@@ -1,5 +1,6 @@
 #include "raylib.h"
-#include <stdio.h>
+#include <stdio.h>  // snprintf(), printf()
+#include <string.h> // strcmp()
 
 typedef struct {
     int width;
@@ -10,6 +11,22 @@ typedef struct {
 
 int main(int argc, char *argv[])
 {
+    if (argc > 1 && strcmp("-h", argv[1]) == 0)
+    {
+      printf(
+        "mizoview - Simple Image Viewer using raylib\n"
+        "\n"
+        "Usage: mizoview [image_path]\n"
+        "\n"
+        "Options:\n"
+        "  -h  Display this help message\n"
+        "\n"
+        "Controls:\n"
+        "  Drag and drop an image file into the window to view it.\n"
+      );
+      return 0;
+    }
+
     Texture2D texture = { 0 };
     char fileInfo[256] = "NO FILE";
 
@@ -55,16 +72,15 @@ int main(int argc, char *argv[])
           }
       }
 
-				BeginDrawing();
-
-						ClearBackground(BLACK);
-						DrawText(fileInfo, 10, 1, 20, RAYWHITE);
-						if (texture.id != 0)
+      BeginDrawing();
+        ClearBackground(BLACK);
+            DrawText(fileInfo, 10, 1, 20, RAYWHITE);
+            if (texture.id != 0)
             {
-								DrawTexture(texture, (window.width - texture.width) / 2, (window.height - texture.height) / 2 + 21, WHITE);
-						} else if (argc < 2)
+                DrawTexture(texture, (window.width - texture.width) / 2, (window.height - texture.height) / 2 + 21, WHITE);
+            } else if (argc < 2)
             {
-								DrawText("Drop an image here!\nAdditional -flags for command line (Linux only):\n  -h: Display help for this application", window.width - 648, window.height /2, 20, RAYWHITE);
+                DrawText("Drop an image here!\nAdditional -flags for command line:\n  -h: Display help for this application", window.width - 648, window.height /2, 20, RAYWHITE);
             } else
             {
                 DrawTexture(texture, (window.width - texture.width) / 2, (window.height - texture.height) / 2 + 21, WHITE);
