@@ -1,4 +1,4 @@
-#include <raylib.h>
+#include "raylib.h"
 #include <stdio.h>
 
 typedef struct {
