@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra
-LDFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+LDFLAGS = -lGL -lm -lpthread -ldl -lrt -lX11
 BUILD_DIR = ./build
 TARGET = $(BUILD_DIR)/mizoview
 
