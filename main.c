@@ -2,10 +2,13 @@
 #include <stdio.h>  // snprintf(), printf()
 #include <string.h> // strcmp()
 
+#define KEY_FULLSCREEN KEY_F
+
 typedef struct {
     int width;
     int height;
     int TargetFPS;
+    bool fullscreen;
     char title[256];
 } Window;
 
@@ -14,7 +17,7 @@ int main(int argc, char *argv[])
     if (argc > 1 && strcmp("-h", argv[1]) == 0)
     {
       printf(
-        "mizoview - Simple Image Viewer using raylib\n"
+        "mizoview - Simple Image Viewer\n"
         "\n"
         "Usage: mizoview [image_path]\n"
         "\n"
@@ -30,9 +33,16 @@ int main(int argc, char *argv[])
     Texture2D texture = { 0 };
     char fileInfo[256] = "NO FILE";
 
-    Window window = { 1152, 648, 60, "mizoview - image viewer" };
+    Window window = { GetMonitorWidth(-1), GetMonitorHeight(-1), 60, false, "mizoview - image viewer" };
     InitWindow(window.width, window.height, window.title);
     SetTargetFPS(window.TargetFPS);
+
+    // TODO: Add support for multiple files
+    // *including a sidebar!
+
+    Rectangle fullscreen_button = { 50, 50, 50, 50 };
+    Rectangle fullscreen_button_bounds = { window.width / 2 - fullscreen_button.width / 2, window.height / 2 - fullscreen_button.height / 2, fullscreen_button.width, fullscreen_button.height };
+    Vector2 mouse_point = { 0, 0 };
 
     while (!WindowShouldClose())
     {
@@ -46,9 +56,9 @@ int main(int argc, char *argv[])
                   Image image = LoadImage(droppedFiles.paths[0]);
                   int origImageWidth  = image.width;
                   int origImageHeight = image.height;
-                  ImageResize(&image, window.width, window.height);
                   if (image.data != NULL)
                   {
+                      ImageResize(&image, GetScreenWidth(), GetScreenHeight());
                       if (texture.id != 0) UnloadTexture(texture);
                       texture = LoadTextureFromImage(image);
                       snprintf(fileInfo, sizeof(fileInfo), "File: %s (Original size: %dx%d)", droppedFiles.paths[0], origImageWidth, origImageHeight);
@@ -62,30 +72,53 @@ int main(int argc, char *argv[])
           Image image = LoadImage(argv[1]);
           int origImageWidth  = image.width;
           int origImageHeight = image.height;
-          ImageResize(&image, window.width, window.height);
           if (image.data != NULL)
           {
+              ImageResize(&image, GetScreenWidth(), GetScreenHeight());
               if (texture.id != 0) UnloadTexture(texture);
               texture = LoadTextureFromImage(image);
-              snprintf(fileInfo, sizeof(fileInfo), "File: %s (Original size: %dx%d)", argv[0], origImageWidth, origImageHeight);
+              snprintf(fileInfo, sizeof(fileInfo), "File: %s (Original size: %dx%d)", argv[1], origImageWidth, origImageHeight);
               UnloadImage(image);
           }
       }
 
       BeginDrawing();
-        ClearBackground(BLACK);
-            DrawText(fileInfo, 10, 1, 20, RAYWHITE);
-            if (texture.id != 0)
-            {
-                DrawTexture(texture, (window.width - texture.width) / 2, (window.height - texture.height) / 2 + 21, WHITE);
-            } else if (argc < 2)
-            {
-                DrawText("Drop an image here!\nAdditional -flags for command line:\n  -h: Display help for this application", window.width - 648, window.height /2, 20, RAYWHITE);
-            } else
-            {
-                DrawTexture(texture, (window.width - texture.width) / 2, (window.height - texture.height) / 2 + 21, WHITE);
-            }
-        EndDrawing();
+      ClearBackground(BLACK);
+
+      mouse_point = GetMousePosition();
+
+      if (CheckCollisionPointRec(mouse_point, fullscreen_button_bounds))
+      {
+          if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) window.fullscreen = !window.fullscreen;
+          else window.fullscreen = false;
+      }
+
+      if (IsKeyPressed(KEY_FULLSCREEN))
+      {
+          window.fullscreen = !window.fullscreen;
+      }
+
+      if (!window.fullscreen)
+      {
+          DrawText(fileInfo, 10, 0, 20, RAYWHITE);
+          if (texture.id != 0)
+          {
+              DrawTexture(texture, 0, 20, WHITE);
+          } else if (argc <= 1)
+          {
+              DrawText("Drop an image here!\nControls:\n  Press F to enter fullscreen mode.\nAdditional -flags for command line:\n  -h: Display help for this application", 50, 50, 20, RAYWHITE);
+          }
+      } else
+      {
+          if (texture.id != 0)
+          {
+              DrawTexture(texture, 0, 0, WHITE);
+          } else if (argc <= 1)
+          {
+              DrawText("Drop an image here!\nControls:\n  Press F to exit fullscreen.\nAdditional -flags for command line:\n  -h: Display help for this application", 50, 50, 20, RAYWHITE);
+          }
+      }
+      EndDrawing();
     }
 
     if (texture.id != 0) UnloadTexture(texture);
