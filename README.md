@@ -19,3 +19,7 @@ Run `./build/mizoview` in your terminal - it will open up the application. You w
 - Add support of multiple images to be dragged & dropped into the UI (can be selected using a sidebar)
 - Implement a fullscreen option (removing all the UI clutter, leaving just the image)
 - Add Windows support (Unlikely)
+
+  ### Screenshots
+  ![No image](https://github.com/izonit/mizoview/blob/main/mizoview_screenshots/mizoview_noimage.png)
+  ![Image selected(https://github.com/izonit/mizoview/blob/main/mizoview_screenshots/mizoview_image.png)
