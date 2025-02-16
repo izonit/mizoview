@@ -22,4 +22,4 @@ Run `./build/mizoview` in your terminal - it will open up the application. You w
 
   ### Screenshots
   ![No image](https://github.com/izonit/mizoview/blob/main/mizoview_screenshots/mizoview_noimage.png)
-  ![Image selected(https://github.com/izonit/mizoview/blob/main/mizoview_screenshots/mizoview_image.png)
+  ![Image selected](https://github.com/izonit/mizoview/blob/main/mizoview_screenshots/mizoview_image.png)
